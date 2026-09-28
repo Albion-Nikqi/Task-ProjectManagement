@@ -1,0 +1,106 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+
+    <h2>Projekti: {{ project.name }}</h2>
+    <p>{{ project.description }}</p>
+
+    <hr>
+
+    <h3>Progresi i Projektit</h3>
+    <ul>
+        <li>Totali i detyrave: <b>{{ project.total_tasks }}</b></li>
+        <li>Kryer: <b>{{ project.completed_tasks }}</b></li>
+        <li>Në pritje: <b>{{ project.pending_tasks }}</b></li>
+        <li>Përqindja: <b>{{ project.progress_percentage }}%</b></li>
+    </ul>
+
+    <progress value="{{ project.progress_percentage }}" max="100" style="width: 100%; height: 20px;"></progress>
+
+    <hr>
+
+    <div>
+        <a href="{% url 'create_task' project.id %}"><b>+ Shto Detyrë Të Re</b></a>
+    </div>
+
+    <br>
+
+    <form method="GET">
+        <input type="text" name="search" value="{{ search_query }}" placeholder="Kërko titullin...">
+
+        <select name="status">
+            <option value="">-- Statusi --</option>
+            <option value="TODO" {% if status_filter == 'TODO' %}selected{% endif %}>To Do</option>
+            <option value="IN_PROGRESS" {% if status_filter == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+            <option value="DONE" {% if status_filter == 'DONE' %}selected{% endif %}>Done</option>
+        </select>
+
+        <select name="priority">
+            <option value="">-- Prioriteti --</option>
+            <option value="LOW" {% if priority_filter == 'LOW' %}selected{% endif %}>Low</option>
+            <option value="MEDIUM" {% if priority_filter == 'MEDIUM' %}selected{% endif %}>Medium</option>
+            <option value="HIGH" {% if priority_filter == 'HIGH' %}selected{% endif %}>High</option>
+        </select>
+
+        <select name="sort">
+            <option value="-created_at" {% if sort_by == '-created_at' %}selected{% endif %}>Më të rejat</option>
+            <option value="due_date" {% if sort_by == 'due_date' %}selected{% endif %}>Afati më i afërt</option>
+            <option value="-due_date" {% if sort_by == '-due_date' %}selected{% endif %}>Afati më i largët</option>
+        </select>
+
+        <button type="submit">Filtro</button>
+        <a href="{% url 'project_detail' project.id %}">Pastro</a>
+    </form>
+
+    <br>
+
+    <h3>Lista e Detyrave</h3>
+
+    {% for task in tasks %}
+    <div>
+        {% if task.is_overdue %}
+            <b>[ OVERDUE - Kaluar afati]</b>
+        {% elif task.is_upcoming %}
+            <b>[ UPCOMING - Skadon brenda 2 ditëve]</b>
+        {% endif %}
+
+        <h4>Title: {{ task.title }}</h4>
+        <ul>
+            <li>Description: <b>{{ task.description }}</b></li>
+            <li>Assigned to: <b>{% if task.assigned_to %}{{ task.assigned_to }}{% else %}I pacaktuar{% endif %}</b></li>
+            <li>Created by: <b>{{ task.created_by }}</b></li>
+            <li>Status: <b>{{ task.get_status_display }}</b></li>
+            <li>Priority: <b>{{ task.get_priority_display }}</b></li>
+            <li>Due date: <b>{{ task.due_date|date:"d/m/Y H:i" }}</b></li>
+            <li>Created: <b>{{ task.created_at|date:"d/m/Y H:i" }}</b></li>
+            <li>Updated: <b>{{ task.updated_at|date:"d/m/Y H:i" }}</b></li>
+        </ul>
+
+        <ul>
+            <li><a href="{% url 'update_task' task.id %}">Përditëso Detyrën</a></li>
+            <li><a href="{% url 'delete_task' task.id %}">Fshij Detyrën</a></li>
+        </ul>
+
+        <hr>
+    </div>
+    {% empty %}
+        <p>Nuk u gjet asnjë detyrë.</p>
+    {% endfor %}
+
+    {% if tasks.paginator.num_pages > 1 %}
+    <div>
+        {% if tasks.has_previous %}
+            <a href="?page={{ tasks.previous_page_number }}&search={{ search_query }}&status={{ status_filter }}&priority={{ priority_filter }}&sort={{ sort_by }}">« Prapa</a>
+        {% endif %}
+
+        <span> Faqja {{ tasks.number }} nga {{ tasks.paginator.num_pages }} </span>
+
+        {% if tasks.has_next %}
+            <a href="?page={{ tasks.next_page_number }}&search={{ search_query }}&status={{ status_filter }}&priority={{ priority_filter }}&sort={{ sort_by }}">Përpara »</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock content %}

@@ -1,0 +1,16 @@
+<a href="/">
+    <h1>Task Management System</h1>
+</a>
+
+{% if request.user.is_authenticated %}
+<p>- Mire se erdhe: <b>{{ request.user }}</b></p>
+<ul>
+    <li><a href="{% url 'register' %}">Sing Up</a></li>
+    <li><a href="{% url 'logout' %}">Log Out</a></li>
+{% else %}
+    <li><a href="{% url 'login' %}">Log In</a></li>
+{% endif %}
+</ul>
+
+
+<hr>

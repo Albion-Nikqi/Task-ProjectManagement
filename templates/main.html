@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <style>
+        body {
+            background-color: antiquewhite;
+            color: #843030;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .success {
+            color: rgb(0, 255, 0);
+        }
+        .error {
+            color: rgb(255, 0, 0);
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% block content %}
+    
+    {% endblock content %}
+    
+</body>
+</html>
