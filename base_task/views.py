@@ -25,7 +25,7 @@ def user_register(request):
             messages.success(request, 'Ju sapo u regjistruat me sukses!')
             return redirect('home')
         else:
-            messages.error(request, 'Ju lutem plotësoni saktë kushtet.')
+            messages.error(request, 'Ju lutem plotësoni sakte kushtet.')
     else:
         form = UserCreationForm()
     

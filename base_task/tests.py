@@ -12,7 +12,7 @@ class TaskManagementSystemTests(TestCase):
 
         self.project1 = Project.objects.create(
             name='Projekti Test',
-            description='Përshkrim test',
+            description='Pershkrim test',
             owner=self.user1
         )
 
@@ -29,7 +29,7 @@ class TaskManagementSystemTests(TestCase):
         self.client.login(username='perdorues1', password='password123')
         task = Task.objects.create(
             title='Detyra 1',
-            description='Përshkrim',
+            description='Pershkrim',
             project=self.project1,
             created_by=self.user1,
             due_date=timezone.now() + timedelta(days=5)
@@ -40,7 +40,7 @@ class TaskManagementSystemTests(TestCase):
     def test_overdue_task(self):
         past_due = timezone.now() - timedelta(days=2)
         task = Task.objects.create(
-            title='Detyrë e vjetër',
+            title='Detyre e vjeter',
             project=self.project1,
             created_by=self.user1,
             status='TODO',

@@ -12,7 +12,7 @@
     <ul>
         <li>Totali i detyrave: <b>{{ project.total_tasks }}</b></li>
         <li>Kryer: <b>{{ project.completed_tasks }}</b></li>
-        <li>Në pritje: <b>{{ project.pending_tasks }}</b></li>
+        <li>Ne pritje: <b>{{ project.pending_tasks }}</b></li>
         <li>Përqindja: <b>{{ project.progress_percentage }}%</b></li>
     </ul>
 
@@ -21,7 +21,7 @@
     <hr>
 
     <div>
-        <a href="{% url 'create_task' project.id %}"><b>+ Shto Detyrë Të Re</b></a>
+        <a href="{% url 'create_task' project.id %}"><b>+ Shto Detyrë Te Re</b></a>
     </div>
 
     <br>
@@ -44,9 +44,9 @@
         </select>
 
         <select name="sort">
-            <option value="-created_at" {% if sort_by == '-created_at' %}selected{% endif %}>Më të rejat</option>
-            <option value="due_date" {% if sort_by == 'due_date' %}selected{% endif %}>Afati më i afërt</option>
-            <option value="-due_date" {% if sort_by == '-due_date' %}selected{% endif %}>Afati më i largët</option>
+            <option value="-created_at" {% if sort_by == '-created_at' %}selected{% endif %}>Me te rejat</option>
+            <option value="due_date" {% if sort_by == 'due_date' %}selected{% endif %}>Afati me i afert</option>
+            <option value="-due_date" {% if sort_by == '-due_date' %}selected{% endif %}>Afati më i larget</option>
         </select>
 
         <button type="submit">Filtro</button>
@@ -62,7 +62,7 @@
         {% if task.is_overdue %}
             <b>[ OVERDUE - Kaluar afati]</b>
         {% elif task.is_upcoming %}
-            <b>[ UPCOMING - Skadon brenda 2 ditëve]</b>
+            <b>[ UPCOMING - Skadon brenda 2 diteve]</b>
         {% endif %}
 
         <h4>Title: {{ task.title }}</h4>
@@ -78,14 +78,14 @@
         </ul>
 
         <ul>
-            <li><a href="{% url 'update_task' task.id %}">Përditëso Detyrën</a></li>
-            <li><a href="{% url 'delete_task' task.id %}">Fshij Detyrën</a></li>
+            <li><a href="{% url 'update_task' task.id %}">Përditeso Detyren</a></li>
+            <li><a href="{% url 'delete_task' task.id %}">Fshij Detyren</a></li>
         </ul>
 
         <hr>
     </div>
     {% empty %}
-        <p>Nuk u gjet asnjë detyrë.</p>
+        <p>Nuk u gjet asnje detyre.</p>
     {% endfor %}
 
     {% if tasks.paginator.num_pages > 1 %}
@@ -97,7 +97,7 @@
         <span> Faqja {{ tasks.number }} nga {{ tasks.paginator.num_pages }} </span>
 
         {% if tasks.has_next %}
-            <a href="?page={{ tasks.next_page_number }}&search={{ search_query }}&status={{ status_filter }}&priority={{ priority_filter }}&sort={{ sort_by }}">Përpara »</a>
+            <a href="?page={{ tasks.next_page_number }}&search={{ search_query }}&status={{ status_filter }}&priority={{ priority_filter }}&sort={{ sort_by }}">Perpara »</a>
         {% endif %}
     </div>
     {% endif %}
